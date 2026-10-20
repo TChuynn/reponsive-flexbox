@@ -4,33 +4,668 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexbox Layout Responsive</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Mô phỏng Bố cục Responsive CSS Flexbox</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* CSS Flexbox Layout Core Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        /* Simulator Frame Controls */
+        .viewport-container {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin: 0 auto;
+        }
+
+        .viewport-desktop {
+            width: 100%;
+            max-width: 100%;
+        }
+
+        .viewport-tablet {
+            width: 768px;
+            max-width: 100%;
+        }
+
+        .viewport-mobile {
+            width: 375px;
+            max-width: 100%;
+        }
+
+        /* Flexbox Core Components (Clean CSS Logic Demonstration) */
+        .site-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8fafc;
+            color: #334155;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Main Container Flex */
+        .flex-main-layout {
+            display: flex;
+            flex: 1 0 auto;
+            width: 100%;
+        }
+
+        /* Content vs Sidebar Ratio using Flex Basis / Grow */
+        .flex-content-area {
+            flex: 3;
+            min-width: 0;
+            /* Prevents flex items from overflowing text */
+            padding: 1.5rem;
+        }
+
+        .flex-sidebar-area {
+            flex: 1;
+            min-width: 260px;
+            background-color: #f1f5f9;
+            padding: 1.5rem;
+            border-left: 1px solid #e2e8f0;
+        }
+
+        /* Article Cards Flexbox Grid */
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            margin-top: 1.5rem;
+        }
+
+        .card-item {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 280px;
+            /* Flex-grow: 1, Flex-shrink: 1, Flex-basis: 280px */
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            padding: 1.25rem;
+        }
+
+        .card-footer {
+            margin-top: auto;
+            padding-top: 1rem;
+        }
+
+        /* Flex Navigation Bar */
+        .flex-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #1e293b;
+            padding: 0 1.5rem;
+        }
+
+        .flex-nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 0.5rem;
+        }
+
+        .flex-nav-links a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.25rem;
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: all 0.2s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .flex-nav-links a:hover,
+        .flex-nav-links a.active {
+            color: #38bdf8;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-bottom-color: #38bdf8;
+        }
+
+        /* Standard Mobile Responsive Behavior Rules */
+        @media (max-width: 868px) {
+            .flex-main-layout {
+                flex-direction: column;
+            }
+
+            .flex-sidebar-area {
+                border-left: none;
+                border-top: 1px solid #e2e8f0;
+                min-width: 100%;
+            }
+
+            .flex-navbar {
+                flex-wrap: wrap;
+                padding: 0.75rem 1rem;
+            }
+
+            .flex-nav-links {
+                width: 100%;
+                flex-direction: column;
+                gap: 0;
+                display: none;
+                /* Controlled by JS toggle on actual mobile screen */
+                padding-top: 0.5rem;
+            }
+
+            .flex-nav-links.show {
+                display: flex;
+            }
+
+            .flex-nav-links a {
+                padding: 0.75rem 1rem;
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                border-radius: 0.375rem;
+            }
+
+            .flex-nav-links a:hover,
+            .flex-nav-links a.active {
+                border-bottom-color: transparent;
+                border-left-color: #38bdf8;
+            }
+        }
+    </style>
 </head>
 
-<body>
-    <div class="container">
-        <header class="header">Header - Tiêu đề trang web</header>
-        <nav class="nav">
-            <a href="#">Trang chủ</a>
-            <a href="#">Giới thiệu</a>
-            <a href="#">Dịch vụ</a>
-            <a href="#">Liên hệ</a>
-        </nav>
-        <div class="main-container">
-            <main class="content">
-                <h2>Main Content</h2>
-                <p>Khu vực hiển thị nội dung chính của trang web. Sử dụng thuộc tính <code>flex: 3</code> để chiếm 3/4
-                    chiều rộng khu vực nội dung trên màn hình lớn.</p>
-            </main>
-            <aside class="sidebar">
-                <h3>Sidebar</h3>
-                <p>Khu vực hiển thị nội dung phụ như danh mục, tin tức nổi bật, quảng cáo. Sử dụng <code>flex: 1</code>
-                    để chiếm 1/4 chiều rộng.</p>
-            </aside>
+<body class="p-2 sm:p-6 bg-slate-900 text-slate-100 flex flex-col min-h-screen">
+
+    <!-- TOP TOOLBAR: Device Viewport Switcher & CSS Inspector -->
+    <header
+        class="max-w-7xl w-full mx-auto mb-6 bg-slate-800/90 backdrop-blur border border-slate-700/60 rounded-2xl p-4 shadow-xl">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+            <!-- Title & Info -->
+            <div class="flex items-center gap-3">
+                <div class="p-2.5 bg-sky-500/10 text-sky-400 rounded-xl border border-sky-500/20">
+                    <i class="fa-solid fa-cubes-stacked text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-white flex items-center gap-2">
+                        Demo Bố cục Responsive Flexbox
+                        <span
+                            class="text-xs font-medium px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-500/30">CSS3
+                            Flexbox</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Thử nghiệm trực quan cơ chế phản hồi responsive theo khung nhìn
+                        màn hình</p>
+                </div>
+            </div>
+
+            <!-- Viewport Switcher Buttons -->
+            <div class="flex items-center bg-slate-900/80 p-1.5 rounded-xl border border-slate-700/80 gap-1">
+                <button onclick="setViewport('desktop')" id="btn-desktop"
+                    class="viewport-btn active flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-sky-600 text-white shadow">
+                    <i class="fa-solid fa-desktop"></i>
+                    <span>Máy tính</span>
+                </button>
+                <button onclick="setViewport('tablet')" id="btn-tablet"
+                    class="viewport-btn flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all">
+                    <i class="fa-solid fa-tablet-screen-button"></i>
+                    <span>Máy tính bảng (768px)</span>
+                </button>
+                <button onclick="setViewport('mobile')" id="btn-mobile"
+                    class="viewport-btn flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-400 hover:text-white transition-all">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                    <span>Di động (375px)</span>
+                </button>
+            </div>
+
+            <!-- CSS Flexbox Rules Quick Tag -->
+            <div
+                class="hidden lg:flex items-center gap-2 text-xs text-slate-400 bg-slate-900/40 px-3 py-2 rounded-xl border border-slate-800">
+                <i class="fa-solid fa-code text-sky-400"></i>
+                <span id="current-flex-info" class="font-mono text-sky-300">flex-direction: row</span>
+            </div>
         </div>
-        <footer class="footer">Footer - Thông tin bản quyền & Liên hệ</footer>
-    </div>
+    </header>
+
+    <!-- LIVE DEMO CONTAINER (SIMULATED VIEWPORT FRAME) -->
+    <main id="viewport-frame" class="viewport-container viewport-desktop flex-1 mb-6">
+
+        <!-- SITE CONTAINER (Flex Column Layout) -->
+        <div class="site-container shadow-2xl">
+
+            <!-- 1. HEADER SECTION -->
+            <header
+                class="bg-gradient-to-r from-slate-900 via-slate-800 to-sky-950 text-white p-4 sm:p-6 flex flex-wrap items-center justify-between border-b border-slate-700/50 gap-4">
+                <div class="flex items-center gap-3">
+                    <div
+                        class="w-10 h-10 rounded-xl bg-sky-500 flex items-center justify-center text-white shadow-lg shadow-sky-500/30 text-xl font-black">
+                        <i class="fa-solid fa-bolt"></i>
+                    </div>
+                    <div>
+                        <span class="text-xs uppercase tracking-widest text-sky-400 font-bold block">Chuyên mục
+                            Flexbox</span>
+                        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white">FlexTech Portal</h2>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div
+                        class="hidden sm:flex items-center gap-2 bg-slate-800/80 px-3 py-1.5 rounded-full border border-slate-700 text-xs text-slate-300">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                        Trạng thái Flex Container: Active
+                    </div>
+                    <button
+                        class="bg-sky-500 hover:bg-sky-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-md transition-all flex items-center gap-2">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Đăng nhập</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- 2. NAVIGATION BAR (Flex Items Alignment) -->
+            <nav class="flex-navbar border-b border-slate-800">
+                <div class="flex items-center justify-between w-full md:w-auto py-3 md:py-0">
+                    <span class="text-slate-400 font-semibold text-sm md:hidden flex items-center gap-2">
+                        <i class="fa-solid fa-bars-staggered text-sky-400"></i> Menu Danh Mục
+                    </span>
+                    <!-- Mobile Hamburger Button -->
+                    <button onclick="toggleMobileMenu()"
+                        class="md:hidden text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+
+                <!-- Nav Items List -->
+                <ul id="nav-menu" class="flex-nav-links">
+                    <li><a href="#" class="active"><i class="fa-solid fa-house"></i> Trang chủ</a></li>
+                    <li><a href="#"><i class="fa-solid fa-newspaper"></i> Tin tức</a></li>
+                    <li><a href="#"><i class="fa-solid fa-laptop-code"></i> Sản phẩm</a></li>
+                    <li><a href="#"><i class="fa-solid fa-briefcase"></i> Dịch vụ</a></li>
+                    <li><a href="#"><i class="fa-solid fa-headset"></i> Liên hệ</a></li>
+                </ul>
+
+                <!-- Search Bar inside Flex Nav -->
+                <div
+                    class="hidden lg:flex items-center my-2 bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs">
+                    <input type="text" placeholder="Tìm kiếm bài viết..."
+                        class="bg-transparent text-slate-200 focus:outline-none w-36">
+                    <button class="text-slate-400 hover:text-sky-400"><i
+                            class="fa-solid fa-magnifying-glass"></i></button>
+                </div>
+            </nav>
+
+            <!-- 3. MAIN CONTAINER (Flex Row on Desktop -> Flex Column on Mobile) -->
+            <div class="flex-main-layout">
+
+                <!-- MAIN CONTENT AREA (Flex: 3) -->
+                <main class="flex-content-area bg-white">
+                    <!-- Hero Banner -->
+                    <div
+                        class="relative rounded-2xl overflow-hidden bg-slate-900 text-white p-6 sm:p-8 mb-6 shadow-sm border border-slate-100">
+                        <div class="absolute inset-0 bg-gradient-to-r from-sky-900/90 to-slate-900/80 z-10"></div>
+                        <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=1200&q=80"
+                            alt="Flexbox Hero" class="absolute inset-0 w-full h-full object-cover">
+                        <div class="relative z-20 max-w-xl">
+                            <span
+                                class="bg-sky-500 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full mb-3 inline-block">CSS3
+                                Flexbox Layout</span>
+                            <h3 class="text-2xl sm:text-3xl font-extrabold mb-2 leading-tight">Xây dựng Bố cục Linh hoạt
+                                & Tương thích Mọi Thiết bị</h3>
+                            <p class="text-slate-300 text-sm mb-4">Sử dụng thuộc tính <code>display: flex</code> để tự
+                                động sắp xếp, căn chỉnh các khoảng trống trên trình duyệt một cách mượt mà.</p>
+                            <a href="#articles"
+                                class="inline-flex items-center gap-2 bg-white text-slate-900 font-semibold text-xs px-4 py-2.5 rounded-lg hover:bg-sky-50 transition shadow">
+                                Khám phá ngay <i class="fa-solid fa-arrow-down"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Section Title -->
+                    <div class="flex items-center justify-between mb-2">
+                        <div>
+                            <h4 id="articles" class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                                <i class="fa-solid fa-layer-group text-sky-500"></i> Bài Viết Mới Nhất
+                            </h4>
+                            <p class="text-xs text-slate-500">Thẻ bài viết tự bọc dòng <code>flex-wrap: wrap</code> & co
+                                giãn <code>flex-grow</code></p>
+                        </div>
+                        <span class="text-xs bg-slate-100 text-slate-600 font-semibold px-2.5 py-1 rounded-md">4 Bài
+                            viết</span>
+                    </div>
+
+                    <!-- CARDS CONTAINER (Flex Wrap Grid) -->
+                    <div class="cards-grid">
+
+                        <!-- Card 1 -->
+                        <article class="card-item group">
+                            <div class="relative h-40 overflow-hidden bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
+                                    alt="Flexbox Basics"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <span
+                                    class="absolute top-2 left-2 bg-slate-900/80 backdrop-blur text-white text-[10px] font-semibold px-2 py-0.5 rounded">CSS
+                                    Layout</span>
+                            </div>
+                            <div class="card-body">
+                                <h5
+                                    class="font-bold text-slate-800 text-base mb-1 group-hover:text-sky-600 transition-colors">
+                                    Làm chủ Flex-direction & Flex-wrap</h5>
+                                <p class="text-slate-600 text-xs leading-relaxed mb-3">Tìm hiểu cách điều hướng các Flex
+                                    Item theo trục chính Main Axis và trục phụ Cross Axis dễ dàng.</p>
+                                <div
+                                    class="card-footer flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100 pt-3">
+                                    <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 5 phút
+                                        đọc</span>
+                                    <span
+                                        class="font-semibold text-sky-600 group-hover:translate-x-1 transition-transform inline-block">Đọc
+                                        tiếp <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Card 2 -->
+                        <article class="card-item group">
+                            <div class="relative h-40 overflow-hidden bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=600&q=80"
+                                    alt="Flex Basis"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <span
+                                    class="absolute top-2 left-2 bg-sky-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded">Frontend</span>
+                            </div>
+                            <div class="card-body">
+                                <h5
+                                    class="font-bold text-slate-800 text-base mb-1 group-hover:text-sky-600 transition-colors">
+                                    Phân biệt Flex-grow, Shrink & Basis</h5>
+                                <p class="text-slate-600 text-xs leading-relaxed mb-3">Hiểu rõ cơ chế phân bổ không gian
+                                    dư thừa của Flex Container cho các phần tử con bên trong.</p>
+                                <div
+                                    class="card-footer flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100 pt-3">
+                                    <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 8 phút
+                                        đọc</span>
+                                    <span
+                                        class="font-semibold text-sky-600 group-hover:translate-x-1 transition-transform inline-block">Đọc
+                                        tiếp <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Card 3 -->
+                        <article class="card-item group">
+                            <div class="relative h-40 overflow-hidden bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80"
+                                    alt="Responsive Web"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <span
+                                    class="absolute top-2 left-2 bg-emerald-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded">Mobile
+                                    First</span>
+                            </div>
+                            <div class="card-body">
+                                <h5
+                                    class="font-bold text-slate-800 text-base mb-1 group-hover:text-sky-600 transition-colors">
+                                    Thiết kế Responsive với Media Queries</h5>
+                                <p class="text-slate-600 text-xs leading-relaxed mb-3">Kết hợp linh hoạt Flexbox với
+                                    Media Queries để tạo giao diện hiển thị hoàn hảo trên Mobile.</p>
+                                <div
+                                    class="card-footer flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100 pt-3">
+                                    <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 6 phút
+                                        đọc</span>
+                                    <span
+                                        class="font-semibold text-sky-600 group-hover:translate-x-1 transition-transform inline-block">Đọc
+                                        tiếp <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <!-- Card 4 -->
+                        <article class="card-item group">
+                            <div class="relative h-40 overflow-hidden bg-slate-100">
+                                <img src="https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=600&q=80"
+                                    alt="CSS Grid vs Flexbox"
+                                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                                <span
+                                    class="absolute top-2 left-2 bg-amber-600 text-white text-[10px] font-semibold px-2 py-0.5 rounded">So
+                                    sánh</span>
+                            </div>
+                            <div class="card-body">
+                                <h5
+                                    class="font-bold text-slate-800 text-base mb-1 group-hover:text-sky-600 transition-colors">
+                                    Khi nào dùng CSS Flexbox vs CSS Grid?</h5>
+                                <p class="text-slate-600 text-xs leading-relaxed mb-3">Lựa chọn giải pháp bố cục 1 chiều
+                                    (1D) hay 2 chiều (2D) phù hợp cho từng dự án thực tế.</p>
+                                <div
+                                    class="card-footer flex items-center justify-between text-[11px] text-slate-400 border-t border-slate-100 pt-3">
+                                    <span class="flex items-center gap-1"><i class="fa-regular fa-clock"></i> 10 phút
+                                        đọc</span>
+                                    <span
+                                        class="font-semibold text-sky-600 group-hover:translate-x-1 transition-transform inline-block">Đọc
+                                        tiếp <i class="fa-solid fa-chevron-right text-[9px]"></i></span>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                </main>
+
+                <!-- 4. SIDEBAR AREA (Flex: 1) -->
+                <aside class="flex-sidebar-area flex flex-col gap-6">
+
+                    <!-- Sidebar Widget 1: Trending News -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <h5
+                            class="text-sm font-bold text-slate-800 pb-2 mb-3 border-b border-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-fire text-rose-500"></i> Tin Nổi Bật
+                        </h5>
+                        <div class="flex flex-col gap-3">
+                            <a href="#" class="flex items-center gap-3 group">
+                                <span class="text-xl font-black text-slate-300 group-hover:text-sky-500 w-5">01</span>
+                                <div>
+                                    <h6
+                                        class="text-xs font-semibold text-slate-700 group-hover:text-sky-600 transition-colors line-clamp-2">
+                                        Thuộc tính align-items trong Flexbox</h6>
+                                    <span class="text-[10px] text-slate-400">1.2k lượt xem</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 group">
+                                <span class="text-xl font-black text-slate-300 group-hover:text-sky-500 w-5">02</span>
+                                <div>
+                                    <h6
+                                        class="text-xs font-semibold text-slate-700 group-hover:text-sky-600 transition-colors line-clamp-2">
+                                        Tạo menu đa cấp dạng Flexbox</h6>
+                                    <span class="text-[10px] text-slate-400">850 lượt xem</span>
+                                </div>
+                            </a>
+                            <a href="#" class="flex items-center gap-3 group">
+                                <span class="text-xl font-black text-slate-300 group-hover:text-sky-500 w-5">03</span>
+                                <div>
+                                    <h6
+                                        class="text-xs font-semibold text-slate-700 group-hover:text-sky-600 transition-colors line-clamp-2">
+                                        Tối ưu tốc độ Render CSS3 Layout</h6>
+                                    <span class="text-[10px] text-slate-400">620 lượt xem</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Widget 2: Promo Banner -->
+                    <div
+                        class="bg-gradient-to-br from-indigo-600 to-sky-600 text-white p-5 rounded-xl shadow-md text-center flex flex-col items-center">
+                        <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center mb-2 text-lg">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                        <h5 class="text-sm font-bold mb-1">Khóa Học Frontend Fullstack</h5>
+                        <p class="text-xs text-indigo-100 mb-3">Thành thạo HTML5, CSS3, Tailwind & ReactJS trong 12
+                            tuần.</p>
+                        <button
+                            class="w-full bg-white text-indigo-700 hover:bg-slate-100 text-xs font-bold py-2 rounded-lg transition shadow">Đăng
+                            ký ngay</button>
+                    </div>
+
+                    <!-- Sidebar Widget 3: Quick Tags -->
+                    <div class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                        <h5
+                            class="text-sm font-bold text-slate-800 pb-2 mb-3 border-b border-slate-100 flex items-center gap-2">
+                            <i class="fa-solid fa-tags text-sky-500"></i> Từ Khóa Phổ Biến
+                        </h5>
+                        <div class="flex flex-wrap gap-1.5">
+                            <span
+                                class="text-[11px] bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-600 px-2.5 py-1 rounded-md cursor-pointer transition">#flexbox</span>
+                            <span
+                                class="text-[11px] bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-600 px-2.5 py-1 rounded-md cursor-pointer transition">#responsive</span>
+                            <span
+                                class="text-[11px] bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-600 px-2.5 py-1 rounded-md cursor-pointer transition">#css-grid</span>
+                            <span
+                                class="text-[11px] bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-600 px-2.5 py-1 rounded-md cursor-pointer transition">#web-design</span>
+                            <span
+                                class="text-[11px] bg-slate-100 hover:bg-sky-100 hover:text-sky-700 text-slate-600 px-2.5 py-1 rounded-md cursor-pointer transition">#tailwind</span>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+
+            <!-- 5. FOOTER SECTION -->
+            <footer class="bg-slate-900 text-slate-400 p-6 sm:p-8 border-t border-slate-800">
+                <div class="flex flex-wrap justify-between gap-6 mb-6">
+                    <div class="max-w-xs">
+                        <div class="flex items-center gap-2 text-white font-bold text-lg mb-2">
+                            <i class="fa-solid fa-bolt text-sky-400"></i> FlexTech Portal
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed">Trang web minh họa ứng dụng CSS Flexbox trong
+                            thiết kế giao diện website hiện đại và responsive trên mọi nền tảng.</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-8 text-xs">
+                        <div>
+                            <h6 class="text-white font-bold mb-2 uppercase tracking-wider text-[11px]">Danh mục</h6>
+                            <ul class="space-y-1.5 text-slate-400">
+                                <li><a href="#" class="hover:text-sky-400">Trang chủ</a></li>
+                                <li><a href="#" class="hover:text-sky-400">Tin tức IT</a></li>
+                                <li><a href="#" class="hover:text-sky-400">Tài liệu Flexbox</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h6 class="text-white font-bold mb-2 uppercase tracking-wider text-[11px]">Liên kết</h6>
+                            <ul class="space-y-1.5 text-slate-400">
+                                <li><a href="#" class="hover:text-sky-400">Chính sách bảo mật</a></li>
+                                <li><a href="#" class="hover:text-sky-400">Điều khoản sử dụng</a></li>
+                                <li><a href="#" class="hover:text-sky-400">Hỗ trợ kỹ thuật</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="flex flex-col sm:flex-row items-center justify-between pt-4 border-t border-slate-800/80 gap-3 text-xs">
+                    <p>© 2026 FlexTech Portal. Tất cả quyền được bảo lưu.</p>
+                    <div class="flex gap-4 text-base">
+                        <a href="#" class="text-slate-400 hover:text-sky-400"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-sky-400"><i class="fa-brands fa-github"></i></a>
+                        <a href="#" class="text-slate-400 hover:text-sky-400"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </footer>
+
+        </div>
+    </main>
+
+    <!-- FOOTER INFO / CODE EXPLANATION PANEL -->
+    <footer
+        class="max-w-7xl w-full mx-auto bg-slate-800/80 border border-slate-700/60 rounded-2xl p-4 text-slate-300 text-xs">
+        <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+            <div class="flex items-center gap-2 text-sky-400 font-semibold">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Ghi chú kỹ thuật:</span>
+            </div>
+            <div class="flex flex-wrap gap-4 text-slate-400">
+                <span><strong class="text-slate-200">Main Container:</strong> <code>display: flex</code></span>
+                <span><strong class="text-slate-200">Desktop:</strong> <code>flex-direction: row</code></span>
+                <span><strong class="text-slate-200">Mobile (&lt;868px):</strong>
+                    <code>flex-direction: column</code></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE JAVASCRIPT -->
+    <script>
+        // Viewport Simulator Functionality
+        function setViewport(mode) {
+            const frame = document.getElementById('viewport-frame');
+            const flexInfo = document.getElementById('current-flex-info');
+            const buttons = document.querySelectorAll('.viewport-btn');
+
+            buttons.forEach(btn => {
+                btn.classList.remove('bg-sky-600', 'text-white', 'shadow');
+                btn.classList.add('text-slate-400');
+            });
+
+            const activeBtn = document.getElementById(`btn-${mode}`);
+            activeBtn.classList.add('bg-sky-600', 'text-white', 'shadow');
+            activeBtn.classList.remove('text-slate-400');
+
+            frame.classList.remove('viewport-desktop', 'viewport-tablet', 'viewport-mobile');
+
+            if (mode === 'desktop') {
+                frame.classList.add('viewport-desktop');
+                flexInfo.textContent = 'flex-direction: row (Main Content + Sidebar)';
+            } else if (mode === 'tablet') {
+                frame.classList.add('viewport-tablet');
+                flexInfo.textContent = 'flex-direction: column (Trục dọc tự động)';
+            } else if (mode === 'mobile') {
+                frame.classList.add('viewport-mobile');
+                flexInfo.textContent = 'flex-direction: column + Auto Stack Cards';
+            }
+        }
+
+        // Mobile Menu Drawer Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('show');
+        }
+    </script>
 </body>
 
 </html>
