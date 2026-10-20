@@ -4,82 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thực hành Flex-grow CSS</title>
+    <title>Thực hành thuộc tính flex-flow</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background-color: #f8f9fa;
+            background-color: #fafafa;
         }
 
-        h2 {
-            color: #212529;
-            margin-bottom: 10px;
+        h3 {
+            color: #333;
+            margin-top: 24px;
+            margin-bottom: 8px;
         }
 
-        p {
-            color: #495057;
-            margin-bottom: 20px;
-        }
-
-        /* Flex Container */
-        .container {
-            display: flex;
-            width: 100%;
-            max-width: 800px;
-            height: 120px;
-            gap: 10px;
-            border: 2px dashed #495057;
-            background-color: #e9ecef;
-            padding: 10px;
-            box-sizing: border-box;
-        }
-
-        /* Các Flex Items */
+        /* Định dạng chung cho các item */
         .item {
-            padding: 20px 10px;
-            background-color: #4dabf7;
-            color: #ffffff;
-            font-weight: bold;
+            color: white;
+            width: 100px;
+            margin: 10px;
             text-align: center;
-            border-radius: 6px;
+            line-height: 50px;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        /* Ví dụ 1: flex-flow: row nowrap */
+        .container-1 {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            /* Mặc định flex-grow là 0 nếu không khai báo */
-            flex-grow: 0;
-            transition: all 0.3s ease;
+            flex-flow: row nowrap;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
         }
 
-        /* Item 1, 3, 4, 5 giữ kích thước mặc định dựa trên nội dung/kích thước ban đầu */
-        .item-1,
-        .item-3,
-        .item-4,
-        .item-5 {
-            width: 80px;
+        .container-1>.item {
+            background-color: #007bff;
         }
 
-        /* Item 2 được thiết lập flex-grow: 1 để chiếm toàn bộ không gian còn trống */
-        .item-2 {
-            flex-grow: 1;
-            background-color: #ff6b6b;
-            /* Đổi màu nổi bật cho Item 2 */
+        /* Ví dụ 2: flex-flow: row-reverse nowrap */
+        .container-2 {
+            display: flex;
+            flex-flow: row-reverse nowrap;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+        }
+
+        .container-2>.item {
+            background-color: #28a745;
         }
     </style>
 </head>
 
 <body>
 
-    <h2>Thực hành thuộc tính <code>flex-grow</code> (5 Flex Items)</h2>
-    <p>Item 2 sở hữu thuộc tính <code>flex-grow: 1</code> nên sẽ tự động phát triển để chiếm toàn bộ phần không gian còn
-        trống trong container.</p>
+    <h2>Thực hành thuộc tính <code>flex-flow</code></h2>
 
-    <div class="container">
-        <div class="item item-1">Item 1</div>
-        <div class="item item-2">Item 2 (flex-grow: 1)</div>
-        <div class="item item-3">Item 3</div>
-        <div class="item item-4">Item 4</div>
-        <div class="item item-5">Item 5</div>
+    <!-- Ví dụ 1 -->
+    <h3>1. flex-flow: row nowrap (Mặc định)</h3>
+    <div class="container-1">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+    </div>
+
+    <!-- Ví dụ 2 -->
+    <h3>2. flex-flow: row-reverse nowrap</h3>
+    <div class="container-2">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
     </div>
 
 </body>
