@@ -4,101 +4,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thực hành Flex-wrap CSS</title>
+    <title>Thực hành Flex-basis CSS</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background-color: #f4f6f8;
+            background-color: #f8f9fa;
         }
 
         h2 {
-            color: #333;
+            color: #212529;
+            margin-bottom: 8px;
         }
 
-        /* Bộ nút điều khiển giá trị */
+        .description {
+            color: #495057;
+            margin-bottom: 16px;
+            font-size: 15px;
+        }
+
+        /* Nút chuyển đổi giữa các ví dụ */
         .controls {
             margin-bottom: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
         }
 
         .controls button {
             padding: 8px 16px;
-            margin-right: 8px;
             font-size: 14px;
             cursor: pointer;
-            border: 1px solid #007bff;
+            border: 1px solid #0d6efd;
             background-color: #ffffff;
-            color: #007bff;
+            color: #0d6efd;
             border-radius: 4px;
             transition: all 0.2s ease;
         }
 
         .controls button:hover,
         .controls button.active {
-            background-color: #007bff;
+            background-color: #0d6efd;
             color: #ffffff;
         }
 
-        /* Container Flexbox */
+        /* Khung hiển thị các ví dụ */
+        .demo-section {
+            display: none;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            max-width: 650px;
+        }
+
+        .demo-section.active {
+            display: block;
+        }
+
+        /* Container Flexbox chung */
         .container {
             display: flex;
-            flex-wrap: wrap;
-            /* Giá trị thử nghiệm */
-            width: 600px;
-            height: 300px;
             gap: 10px;
-            border: 2px solid #333;
-            background-color: #ffffff;
+            border: 2px dashed #6c757d;
             padding: 10px;
+            background-color: #f1f3f5;
             box-sizing: border-box;
         }
 
-        /* Các Flex Items */
         .item {
-            width: 180px;
-            height: 80px;
-            background-color: #4dabf7;
-            color: white;
-            font-size: 20px;
+            padding: 20px;
+            color: #155724;
             font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
             border-radius: 4px;
             box-sizing: border-box;
+        }
+
+        /* Ví dụ 1: Sử dụng flex-basis với px */
+        .ex1 .item {
+            background-color: #a5d8ff;
+            color: #004085;
+        }
+
+        .ex1 .item1 {
+            flex-basis: 200px;
+        }
+
+        .ex1 .item2 {
+            flex-basis: 100px;
+        }
+
+        .ex1 .item3 {
+            flex-basis: 150px;
+        }
+
+        /* Ví dụ 2: flex-direction: column */
+        .ex2 .container {
+            flex-direction: column;
+            height: 400px;
+        }
+
+        .ex2 .item {
+            flex-basis: 100px;
+            background-color: #b2f2bb;
+            color: #0b5120;
+        }
+
+        /* Ví dụ 3: flex-basis với % */
+        .ex3 .item {
+            flex-basis: 50%;
+            background-color: #ffc9c9;
+            color: #842029;
+        }
+
+        /* Ví dụ 4: Kết hợp flex-basis với flex-grow */
+        .ex4 .container {
+            width: 600px;
+        }
+
+        .ex4 .item {
+            background-color: #d0ebff;
+            color: #1864ab;
+        }
+
+        .ex4 .item1 {
+            flex-basis: 100px;
+            flex-grow: 1;
+        }
+
+        .ex4 .item2 {
+            flex-basis: 100px;
+            flex-grow: 2;
+        }
+
+        .ex4 .item3 {
+            flex-basis: 100px;
+            flex-grow: 1;
         }
     </style>
 </head>
 
 <body>
 
-    <h2>Thực hành thuộc tính <code>flex-wrap</code></h2>
+    <h2>Thực hành thuộc tính <code>flex-basis</code></h2>
+    <p class="description">Chọn từng ví dụ bên dưới để xem sự thay đổi của các Flex Items:</p>
 
+    <!-- Bộ điều khiển -->
     <div class="controls">
-        <button onclick="changeWrap('nowrap')" class="active">nowrap</button>
-        <button onclick="changeWrap('wrap')">wrap</button>
-        <button onclick="changeWrap('wrap-reverse')">wrap-reverse</button>
-        <button onclick="changeWrap('initial')">initial</button>
+        <button onclick="showDemo('ex1', this)" class="active">Ví dụ 1: Đơn vị px</button>
+        <button onclick="showDemo('ex2', this)">Ví dụ 2: Trục column</button>
+        <button onclick="showDemo('ex3', this)">Ví dụ 3: Đơn vị %</button>
+        <button onclick="showDemo('ex4', this)">Ví dụ 4: Kết hợp flex-grow</button>
     </div>
 
-    <div class="container" id="flexContainer">
-        <div class="item">1</div>
-        <div class="item">2</div>
-        <div class="item">3</div>
-        <div class="item">4</div>
-        <div class="item">5</div>
-        <div class="item">6</div>
+    <!-- Ví dụ 1 -->
+    <div id="ex1" class="demo-section ex1 active">
+        <h3>Ví dụ 1: flex-basis với đơn vị px (hướng row)</h3>
+        <p>Kích thước cơ sở chiều ngang của Item 1 (200px), Item 2 (100px), Item 3 (150px).</p>
+        <div class="container">
+            <div class="item item1">Item 1 (200px)</div>
+            <div class="item item2">Item 2 (100px)</div>
+            <div class="item item3">Item 3 (150px)</div>
+        </div>
+    </div>
+
+    <!-- Ví dụ 2 -->
+    <div id="ex2" class="demo-section ex2">
+        <h3>Ví dụ 2: flex-basis khi flex-direction là column</h3>
+        <p>Khi đổi sang trục dọc (`column`), `flex-basis: 100px` tác động trực tiếp vào **chiều cao** của mỗi item.</p>
+        <div class="container">
+            <div class="item">Item 1 (100px height)</div>
+            <div class="item">Item 2 (100px height)</div>
+            <div class="item">Item 3 (100px height)</div>
+        </div>
+    </div>
+
+    <!-- Ví dụ 3 -->
+    <div id="ex3" class="demo-section ex3">
+        <h3>Ví dụ 3: flex-basis với phần trăm (%)</h3>
+        <p>Mỗi item chiếm 50% kích thước trục chính của container.</p>
+        <div class="container">
+            <div class="item">Item 1 (50%)</div>
+            <div class="item">Item 2 (50%)</div>
+        </div>
+    </div>
+
+    <!-- Ví dụ 4 -->
+    <div id="ex4" class="demo-section ex4">
+        <h3>Ví dụ 4: Kết hợp flex-basis với flex-grow</h3>
+        <p>Cả 3 item có kích thước cơ sở ban đầu 100px. Phần không gian còn trống của container (600px) được chia theo
+            tỷ lệ grow 1 : 2 : 1 (Item 2 rộng nhất).</p>
+        <div class="container">
+            <div class="item item1">Item 1 (grow: 1)</div>
+            <div class="item item2">Item 2 (grow: 2)</div>
+            <div class="item item3">Item 3 (grow: 1)</div>
+        </div>
     </div>
 
     <script>
-        function changeWrap(value) {
-            const container = document.getElementById('flexContainer');
-            container.style.flexWrap = value;
+        function showDemo(exId, btn) {
+            // Ẩn tất cả các ví dụ
+            const sections = document.querySelectorAll('.demo-section');
+            sections.forEach(sec => sec.classList.remove('active'));
 
-            // Cập nhật trạng thái active cho nút bấm
+            // Hiển thị ví dụ được chọn
+            document.getElementById(exId).classList.add('active');
+
+            // Cập nhật nút bấm active
             const buttons = document.querySelectorAll('.controls button');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
         }
     </script>
 
